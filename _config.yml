@@ -6,7 +6,7 @@ description: Welcome
 avatarTitle: ZeeUTao
 # 头像里面的描述
 avatarDesc: T.H. / Anime / SQC
-url: "https://zeeutao.github.io/zeeu-blog/"
+url: "https://zeeutao.github.io"
 
 # Comment
 comment:
@@ -63,9 +63,9 @@ blog_button:
 
 # Navigation buttons in the front page.s
 nav:
-    - {title: Article, description: archive, url: '/archive'}   
-    - {title: Tag, description: tags, url: '/tags'}      
-    - {title: About, description: about, url: '/about'}      
+    - {title: Article, description: archive, url: '/zeeu-blog/archive'}   
+    - {title: Tag, description: tags, url: '/zeeu-blog/tags'}      
+    - {title: About, description: about, url: '/zeeu-blog/about'}      
     
 
 # Pagination
