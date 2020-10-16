@@ -1,6 +1,6 @@
 # ZeeUTao page
 
-Use [Cayman](https://github.com/pages-themes/cayman) as a Jekyll theme for GitHub Pages. 
+Use [leopardpan](https://github.com/leopardpan) as a Jekyll theme for GitHub Pages. 
 
 
 
