@@ -14,8 +14,8 @@ gem install jekyll
 
 
 
-4. Run `bundle exec jekyll serve` to start the preview server
-5. Visit [`localhost:4000`](http://localhost:4000) in your browser to preview the theme
+- Run `bundle exec jekyll serve` to start the preview server
+- Visit [`localhost:4000`](http://localhost:4000) in your browser to preview the theme
 
 
 
