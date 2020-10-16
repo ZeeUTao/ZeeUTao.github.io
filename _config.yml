@@ -1,0 +1,58 @@
+# Basic
+title: PeachRain
+subtitle: presonal website
+description: Welcome
+# 头像里面的标题
+avatarTitle: ZeeUTao
+# 头像里面的描述
+avatarDesc: T.H. / Anime / SQC
+url: "http://ZeeUTao.github.io"
+
+# Comment
+comment:
+    disqus: ZeeUTao
+
+# Social
+social:
+    github: ZeeUTao
+    mail: ZeeUTao@163.com
+
+ 
+
+
+
+# 《----------------- 上面的信息修改成你自己的 ---------------------------》
+#
+#
+#  _post/ 下的文章更换成你自己的文章
+#  帮忙star一下，感谢~😆 地址： https://github.com/leopardpan/leopardpan.github.io
+#
+#
+# 《--------------- 下面的信息可以自行选择是否修改 ------------------------》
+
+
+​      
+permalink: /:year/:month/:title/
+# Format
+highlighter: rouge
+
+textColor: FF0000
+
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: clear
+
+# The blog button should not be removed.
+blog_button:
+    title: Home
+
+# Navigation buttons in the front page.s
+nav:
+    - {title: Article, description: archive, url: '/archive'}   
+    - {title: Tag, description: tags, url: '/tags'}      
+    - {title: About, description: about, url: '/about'}      
+    
+
+# Pagination
+plugins: [jekyll-paginate,jekyll-sitemap]
+paginate: 20
+paginate_path: "page/:num/" 
