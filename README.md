@@ -21,3 +21,27 @@ gem install jekyll
 
 If any other dependency required, use `gem install xxxx  `
 
+
+
+### Deposit in Tencent cloud
+
+install [cloudbase cli](https://docs.cloudbase.net/cli-v1/install.html#1--an-zhuang-node-js)
+
+```bash
+npm i -g @cloudbase/cli@beta
+```
+
+login
+
+```bash
+tcb login
+```
+
+deploy
+
+```
+tcb hosting deploy [filePath] [cloudPath]
+```
+
+
+
