@@ -3,16 +3,14 @@ layout: post
 title: "Introductory readings for SQC"
 description: "suggested readings for SQC"
 date: 2020-01-14
-tags: Physics-Study
+tags: Physics-StudyR
 ---
 
+- superconducting quantum circuits (SQC)
 
 
 
-
-
-
-### Introductory readings
+# Readings
 
 Introductory guide: [A quantum engineer's guide to superconducting qubits](https://doi.org/10.1063/1.5089550)
 
@@ -28,15 +26,11 @@ Finally, Published Papers, usually not introductory readings, but necessary for 
 
 
 
-
-
-
-
-### SQC groups
+# Groups of SQC
 
 **Bold: commercial company**
 
-#### USA
+## USA
 
 - **Google** (John Martinis)
 
@@ -70,35 +64,35 @@ Finally, Published Papers, usually not introductory readings, but necessary for 
 
   [Suppression of Qubit Crosstalk in a Tunable Coupling Superconducting Circuit](https://journals.aps.org/prapplied/abstract/10.1103/PhysRevApplied.12.054023)
 
-#### British
+## British
 
 - University of Oxford ([P.J. Leek](https://journals.aps.org/search/field/author/PJ Leek))
 
   [Two-qubit CR gate](https://journals.aps.org/prapplied/abstract/10.1103/PhysRevApplied.12.064013)
 
-#### Switzerland
+## Switzerland
 
 - ETH (Andreas Wallraff)
 
-#### Netherlands
+## Netherlands
 
 - Delft (L. Dicarlo)
 
-#### Germany
+## Germany
 
 - Karlsruhe Institute of Technology ([Martin Weides](https://journals.aps.org/search/field/author/Martin Weides))
 
   [Correlating Decoherence in Transmon Qubits: Low Frequency Noise by Single Fluctuators](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.123.190502)
 
-#### Canada
+## Canada
 
 - Université de Sherbrooke (A. Blais)
 
-#### Australia
+## Australia
 
 - The University of Queensland ([Arkady Fedorov](https://journals.aps.org/search/field/author/Arkady Fedorov))
 
-#### China
+## China
 
 - Tsinghua
 
