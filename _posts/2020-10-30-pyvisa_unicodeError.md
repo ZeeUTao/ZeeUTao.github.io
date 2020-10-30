@@ -14,7 +14,7 @@ If you do not state the encoding form at all, pyvisa will has `UnicodeDecodeErro
 
 # Code
 
-For example, we want get the data trace from the spectrum analyzer (``)
+For example, we want get the data trace from the spectrum analyzer
 
 ```python
 ## spec.query(*IDN?) == 'Rohde&Schwarz,FSL-18,102695/018,2.50\n'

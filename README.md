@@ -40,8 +40,8 @@ tcb login
 deploy
 
 ```
-tcb hosting deploy [filePath] [cloudPath]
+tcb hosting deploy [filePath] -e [cloudPath]
 ```
 
-
+`[cloudPath]` is environment ID of Tencent cloud
 
