@@ -1,8 +1,8 @@
 ---
-title: "多比特读取的数据处理"
+title: "IQ data for Multiqubit readout"
 author: Ziyu Tao
 date: 2019-09-18
-description: "多比特多能级IQ状态判别等"
+description: "Process IQ data for Multiqubit readout "
 categories: [SQC, data process]
 tags: [SQC]
 math: true
@@ -13,32 +13,34 @@ pin: false
 
 
 
-### 1. IQ 判别
+## IQ determination
 
-这里我们讨论多比特实验中如何**对比特状态进行判别**，也就是对输出的IQ信息进行分类。先从简单的例子出发，然后推广到一般情况。
-
-#### 单比特多能级
-
-我们预先对于单比特不同的能级n进行多次测量取平均，得到不同能级 
+We firstly discuss how to determine the qubit state from the readout data. A single-qubit with n levels (qudit) has quantum states
 
 $$\vert\psi_n\rangle = \vert 0\rangle,\vert 1\rangle \cdots \vert N-1\rangle$$ 
 
-读取对应的点 $x_n = (I_n,Q_n)$ 。
+corresponding to the point in IQ space $x_n = (I_n,Q_n)$ when you readout it. If the noises involved, the readout result become a Gaussian distribution around the point, like a cloud. We should repeat the measurements to determine the center point of the IQ cloud.
 
-
-
-对于新测量到的未知量子态，解模获取的原始数据为IQ平面某一点 $x = (I,Q)$， 如果 $\vert x-x_a\vert = \mathrm{Min}(\vert x-x_n \vert) $  我们则判断它所处的量子态为 $\vert\psi_a\rangle$ 。据此我们可以定义如下函数
+After we save the readout data for the qubit, we can determine an unknown quantum state from its readout data $x = (I,Q)$. We regard the state as $\vert\psi_a\rangle$ if $\vert x-x_a\vert = \mathrm{Min}(\vert x-x_n \vert) $
 
 ```python
-def get_meas(data0,q,Nq = level):
-    #data[0][x]   qubits[x]   x == 0,1,2,3
+import numpy as np
+
+def get_meas(data0, q, Nq = 2):
+    """
+    Args:
+    	data0 (array): readout data
+    	q (dict): qubit parameters
+    	Nq (int): number of qubit levels
+    Returns:
+    	tunnels (array): list of numbers correspond 
+    	to the states, e.g., [0,1,0,0...]
+    """
     
     Is = np.asarray(data0[0]) #array
     Qs = np.asarray(data0[1])    
     sigs = Is + 1j*Qs
-	# input IQ array
-    # return, e.g., array [0,2,0,1...] correspond to Qstate
-    
+
     total = len(Is)
     distance = np.zeros((total,Nq))
     for i in np.arange(Nq):
@@ -54,9 +56,7 @@ def get_meas(data0,q,Nq = level):
     return tunnels
 ```
 
-其中数据格式需根据实际所用进行修改，np为numpy包。
 
-最终的目的为：已知参考IQ，对于多次测量下的一串新的IQ点，返回对应格式的数字，代表单比特对应的能级。
 
 
 
