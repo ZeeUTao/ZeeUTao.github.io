@@ -1,6 +1,6 @@
 # ZeeUTao page
 
-Use [leopardpan](https://github.com/leopardpan) as a Jekyll theme for GitHub Pages. 
+Use [jekyll-theme-chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) as a Jekyll theme for GitHub Pages. 
 
 
 
