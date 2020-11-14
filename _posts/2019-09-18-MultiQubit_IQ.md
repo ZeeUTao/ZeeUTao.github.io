@@ -27,7 +27,7 @@ $$\vert\psi_n\rangle = \vert 0\rangle,\vert 1\rangle \cdots \vert N-1\rangle$$
 
 
 
-对于新测量到的未知量子态，解模获取的原始数据为IQ平面某一点 $x = (I,Q)$， 如果 \\(\vert x-x_a\vert = \mathrm{Min}(\vert x-x_n \vert)​ \\)  我们则判断它所处的量子态为 $\vert\psi_a\rangle$ 。据此我们可以定义如下函数
+对于新测量到的未知量子态，解模获取的原始数据为IQ平面某一点 $x = (I,Q)$， 如果 $\vert x-x_a\vert = \mathrm{Min}(\vert x-x_n \vert) $  我们则判断它所处的量子态为 $\vert\psi_a\rangle$ 。据此我们可以定义如下函数
 
 ```python
 def get_meas(data0,q,Nq = level):
