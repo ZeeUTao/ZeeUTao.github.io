@@ -3,7 +3,8 @@ layout: post
 title: "pyvisa decoding error"
 description: "decoding error when get the data from devices via pyvisa"
 date: 2020-10-22
-tags: coding
+categories: [coding]
+tags: [visa]
 ---
 
 # Case
