@@ -1,12 +1,13 @@
 ---
-layout: post
 title: "Parametric amplifier measure"
+author: Ziyu Tao
 description: "about paramp"
 date: 2019-10-23
-tags: SQC-Exp
+categories: [SQC]
+tags: [SQC]
+math: true
+pin: false
 ---
-
-
 
 
 

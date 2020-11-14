@@ -3,7 +3,9 @@ layout: post
 title: "Signal Calibration"
 description: "DAC signal Calibration"
 date: 2020-11-13
-tags: SQC-Exp
+categories: [SQC, calibration]
+tags: [calibration]
+math: true
 ---
 
 

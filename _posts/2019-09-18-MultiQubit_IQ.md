@@ -1,10 +1,15 @@
 ---
-layout: post
 title: "多比特读取的数据处理"
+author: Ziyu Tao
 date: 2019-09-18
 description: "多比特多能级IQ状态判别等"
-tag: SQC-Exp
+categories: [SQC, data process]
+tags: [SQC]
+math: true
+pin: false
 ---
+
+
 
 
 
@@ -14,9 +19,15 @@ tag: SQC-Exp
 
 #### 单比特多能级
 
-我们预先对于单比特不同的能级n进行多次测量取平均，得到不同能级 $\vert\psi_n\rangle = \vert 0\rangle,\vert 1\rangle \cdots \vert N-1\rangle$ 所对应的参考点 $x_n = (I_n,Q_n)$ 。
+我们预先对于单比特不同的能级n进行多次测量取平均，得到不同能级 
 
-对于新测量到的未知量子态，解模获取的原始数据为IQ平面某一点 $x = (I,Q)$， 如果 $\vert x-x_a\vert = \mathrm{Min}(\vert x-x_n \vert)$  我们则判断它所处的量子态为 $\vert\psi_a\rangle$ 。据此我们可以定义如下函数
+$$\vert\psi_n\rangle = \vert 0\rangle,\vert 1\rangle \cdots \vert N-1\rangle$$ 
+
+读取对应的点 $x_n = (I_n,Q_n)$ 。
+
+
+
+对于新测量到的未知量子态，解模获取的原始数据为IQ平面某一点 $x = (I,Q)$， 如果 \\(\vert x-x_a\vert = \mathrm{Min}(\vert x-x_n \vert)​ \\)  我们则判断它所处的量子态为 $\vert\psi_a\rangle$ 。据此我们可以定义如下函数
 
 ```python
 def get_meas(data0,q,Nq = level):

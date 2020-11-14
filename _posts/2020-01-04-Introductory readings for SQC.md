@@ -1,9 +1,10 @@
 ---
-layout: post
 title: "Introductory readings for SQC"
+author: Ziyu Tao
 description: "suggested readings for SQC"
 date: 2020-01-14
-tags: Physics-StudyR
+categories: [study, physics]
+tags: [SQC, reading]
 ---
 
 - superconducting quantum circuits (SQC)

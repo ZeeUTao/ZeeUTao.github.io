@@ -8,9 +8,9 @@
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 #--------------------------
 
-title: ZeeUTao                          # the main title
+title: Ziyu Tao                          # the main title
 
-tagline: A text-focused Jekyll theme.  # it will display as the sub-title
+tagline: personal blog.  # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, portfolio, sidebar,
@@ -18,9 +18,9 @@ description: >-                        # used by seo meta and the atom feed
   and focuses on text presentation.
 
 # Replace with the website url, e.g. 'https://username.github.io'
-url: 'protocol://domain'
+url: 'https://ZeeUTao.github.io'
 
-author: your_full_name                  # change to your full name
+author: ziyu tao                  # change to your full name
 
 avatar: /assets/img/sample/avatar.jpg   # support internet resources
 
@@ -31,7 +31,7 @@ twitter:
   username: twitter_username            # change to your twitter username
 
 social:
-  name: zeeu                  # it will shows as the copyright owner in Footer
+  name: ziyu tao                  # it will shows as the copyright owner in Footer
   email: zeeutao@163.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
@@ -78,7 +78,7 @@ disqus:
 #
 #     dark   - Use the dark color scheme
 #
-theme_mode: dark
+theme_mode: dual
 
 # boolean type, global switch for ToC in posts.
 toc: true

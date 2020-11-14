@@ -3,7 +3,8 @@ layout: post
 title: "singleton python"
 description: "singleton python"
 date: 2020-10-22
-tags: coding
+categories: [coding, python]
+tags: [python]
 ---
 
 # Case

@@ -1,9 +1,11 @@
 ---
-layout: post
 title: "DAC Calibration"
+author: Ziyu Tao
 description: "about paramp"
 date: 2019-12-25
-tags: SQC-Exp
+categories: [SQC, calibration]
+tags: [calibration]
+math: true
 ---
 
 
