@@ -26,6 +26,52 @@ Zurich UI can be used to set the offset value.
 
 ## Sideband
 
+Ideal IQ mixer
+$$
+RF = I \cos \Omega t + Q \sin \Omega t
+$$
+can be considered as a mapping of the input signals I, Q onto the LO frame given by a new set of grid axes (X,Y)
+$$
+RF = I \hat{x} + Q\hat{y}
+$$
+A realistic model has non-orthogonality and amplitude imbalance
+$$
+(I,Q)^T \to M (I,Q)^T
+$$
+
+$$
+M = 
+\begin{pmatrix}
+(1-\epsilon) \cos(\delta/2) & -\sin (\delta/2)   \\
+-\sin (\delta/2) &  (1+\epsilon)\cos(\delta/2)  \\
+\end{pmatrix}
+$$
+
+$$
+(I,Q)^T \to \cos(\delta/2)  [(I,Q)^T  -\epsilon (I, -Q)^T - \tan(\delta/2)(Q, I)^T
+$$
+
+$$
+I + iQ = A e^ {i X}
+$$
+
+Then,
+$$
+I' + iQ' =  \cos(\delta/2) A e^ {i X} -\cos(\delta/2)\epsilon  Ae^ {-i X} - i\sin(\delta/2) Ae^ {-i X}
+$$
+
+$$
+I' + iQ' =\cos(\delta/2) A e^ {i X} - [\cos(\delta/2) \epsilon + i \sin (\delta/2) ] Ae^ {-i X}
+$$
+
+which reveals the mirror sideband frequency with amplitude
+$$
+\frac{\cos(\delta/2)\epsilon  + i \sin (\delta/2)}{\cos(\delta/2)}
+$$
+with respect to desired sideband. 
+
+
+
 In frequency domain, before corrected $h(f)$
 
 ```python
@@ -33,6 +79,14 @@ signal_correct = signal + signal[::-1].conjugate() * _IQcompensation(carrierFreq
 ```
 
 `_IQcompensation` returns an array interpolated from the referenced data. 
+
+In math formula, 
+$$
+h'(f)=h(f)+h^\dagger(-f)=
+$$
+
+
+
 
 ## filter
 
