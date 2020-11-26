@@ -4,6 +4,30 @@ Use [jekyll-theme-chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) as a
 
 
 
+## Requirement
+
+### jq
+
+install [chocolatey](https://chocolatey.org/install) and run
+
+```bash
+choco install jq
+```
+
+
+
+## Run
+
+### create categories
+
+In git bash, run
+
+```bash
+./_scripts/sh/create_pages.sh
+```
+
+
+
 ### Previewing locally
 
 Before that you need install [Ruby](http://www.ruby-lang.org/en/downloads/), [RubyGems](http://rubygems.org/pages/download), and [Jekyll](http://jekyll.bootcss.com/)
@@ -14,8 +38,13 @@ gem install jekyll
 
 
 
-- Run `bundle exec jekyll serve` to start the preview server
-- Visit [`localhost:4000`](http://localhost:4000) in your browser to preview the theme
+You may want to preview the site contents before publishing, so just run in cmd:
+
+```bash
+bundle exec jekyll s
+```
+
+Then open a browser and visit to [http://localhost:4000](http://localhost:4000/).
 
 
 

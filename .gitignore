@@ -15,3 +15,6 @@ Gemfile.lock
 
 # bundle cache
 vendor
+
+#jq
+jq-win64.exe
