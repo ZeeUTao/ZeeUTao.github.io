@@ -12,77 +12,47 @@ math: true
 
 # Calibration
 
-
-$$
-\begin{pmatrix}
-I'\\
-Q'
-\end{pmatrix} =
-M
-\begin{pmatrix}
-I\\
-Q
-\end{pmatrix}
-$$
-
-$$
-\begin{pmatrix}
-I\\
-Q
-\end{pmatrix} \equiv 
-
-\begin{pmatrix}
-\cos X\\
-\sin X
-\end{pmatrix} \equiv e^{iX}
-$$
-
-$$
-e^{iX} + (a+ib) e^{-iX} =
-\begin{pmatrix}
-(1+a)\cos X + b \sin X\\
- b \cos X + (1-a)\sin X
-\end{pmatrix}
-= 
-\begin{pmatrix}
-A_1 \cos(X+\phi_1)\\
-A_2 \sin(X+\phi_2)
-\end{pmatrix}
-$$
-
-```python
-compen_1 = 1 + compen.conjugate()
-amp_1 = np.abs(compen_1)
-phi_1 = np.angle(compen_1)
-
-compen_2 = 1 - compen.conjugate()
-amp_2 = np.abs(compen_2)
-phi_2 = np.angle(compen_2)
-```
-
-
-
-
-
 ## Zero
 
 In spectrum analyzer, a peak of leakage at local frequency from microwave source can be observed, even if the base signal has not been sent. 
 
-To suppress such leakage, we should add DC offset compensation `[I_off,Q_off]` according to related parameters. The parameters mainly include carrier frequency `f_c`,  sideband (or base) frequency `f_sb`, sideband amplitude `amp_sb`. A rough calibration can consider only local frequency involved. 
+To suppress such leakage, we should add DC offset compensation `[I_off,Q_off]` according to related parameters. The parameters mainly include carrier frequency `f_c`,  sideband (or base) frequency `f_sb`, sideband amplitude `amp_sb`, which are listed below. A rough calibration can consider only carrier frequency involved. 
+
+
+
+| related factor             | importance (5 is highest) | comments                                 |
+| -------------------------- | ------------------------- | ---------------------------------------- |
+| carrier frequency          | 5                         |                                          |
+| sideband power             | 5                         |                                          |
+| IQ mixer type              | 5                         | WeiQi is better in 5-7 GHz as we tested  |
+| filters                    | ？                        |                                          |
+| differential amplifier     | ？                        |                                          |
+| carrier power              | 4                         | we can always use the same carrier power |
+| sideband frequency         | 2                         |                                          |
+| IQ amplitude imbalance     | 1                         |                                          |
+| IQ phase non-orthogonality | 1                         |                                          |
+
+
 
 
 
 ## Sideband
 
 An ideal IQ mixer
+
+
 $$
 RF = I \cos \Omega t + Q \sin \Omega t
 $$
+
 can be considered as a mapping of the input signals I, Q onto the LO frame given by a new set of grid axes (X,Y)
+
 $$
 RF = I \hat{x} + Q\hat{y} = \cos X \hat{x} + \sin X \hat{y}
 $$
+
 Since
+
 $$
 \begin{pmatrix}
 \cos (X+\delta) \\
@@ -99,14 +69,18 @@ $$
 \end{pmatrix} 
 $$
 
+
 A realistic model to correct the non-orthogonality and amplitude imbalance can be
+
 $$
 \cos X \hat{x} + \sin X \hat{y} \to (1+\epsilon) \cos(X+\delta) \hat{x} + (1-\epsilon) \sin(X-\delta) \hat{y}
 $$
 
+
 $$
 (I,Q)^T \to M (I,Q)^T
 $$
+
 
 $$
 M = 
@@ -116,22 +90,29 @@ M =
 \end{pmatrix}
 $$
 
+
 $$
 (I,Q)^T \to \cos \delta  \left[(I,Q)^T  -\epsilon (I, -Q)^T - \tan\delta (Q, I)^T \right]
 $$
+
 
 $$
 I + iQ = A e^ {i X}
 $$
 
+
 Then,
+
+
 $$
 I' + iQ' =  \cos \delta  A e^ {i X} - \epsilon\cos \delta  Ae^ {-i X} - i\sin \delta Ae^ {-i X}
 $$
 
+
 $$
 I' + iQ' =\cos \delta  A e^ {i X} - \left[\epsilon\cos \delta  + i \sin \delta \right] Ae^ {-i X}
 $$
+
 
 which contributes a mirror sideband frequency. 
 
@@ -151,7 +132,7 @@ Moreover, due to the above factors, the varied response in signal is more critic
 
 A better way is to implement the calibration and correction according to the final performance in the low temperature of fridge, after the various parameters including carrier frequency, sideband frequency, sideband amplitude are fixed. The calibration efficiency will be increased due to the error function now estimated by the final performance, and various fixed parameters decrease the repetitions of measurements. 
 
-
+For example, we can tune the carrier or mirror frequency into the qubit frequency, and calibrate the leakages according to the qubit measurement. 
 
 
 
