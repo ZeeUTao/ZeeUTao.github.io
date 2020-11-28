@@ -120,7 +120,7 @@ which contributes a mirror sideband frequency.
 
 ### Rough calibration
 
-To correct the sideband leakage, we need the above parameters $\epsilon, \delta$ to describe non-orthogonality and amplitude imbalance. In a rough calibration, we need to calibrate it in varied carrier frequency `f_c` and sideband frequency `f_sb`, estimated by the peak at mirror sideband frequency at spectrum analyzer. 
+To correct the sideband leakage, we need the above parameters $\epsilon, \delta$ to describe non-orthogonality and amplitude imbalance. In a rough calibration, we need to calibrate it in varied carrier frequency `f_c` and sideband frequency `f_sb`, estimated by the peak at mirror sideband frequency of spectrum analyzer. 
 
 ### but the signal also varied
 
