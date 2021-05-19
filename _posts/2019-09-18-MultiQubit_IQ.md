@@ -26,33 +26,17 @@ After we save the readout data for the qubit, we can determine an unknown quantu
 ```python
 import numpy as np
 
-def get_meas(data0, q, Nq = 2):
-    """
-    Args:
-    	data0 (array): readout data
-    	q (dict): qubit parameters
-    	Nq (int): number of qubit levels
-    Returns:
-    	tunnels (array): list of numbers correspond 
-    	to the states, e.g., [0,1,0,0...]
-    """
-    
-    Is = np.asarray(data0[0]) #array
-    Qs = np.asarray(data0[1])    
-    sigs = Is + 1j*Qs
+def get_meas(data0, q, level):
+    """return the state assignments of measurement
+        for example, level=2, return=0,1,1,0,...
+        """
+    points = np.asarray(data0)
+    IQcenter = np.asarray(q['IQcenter'])
+    center_complex = (IQcenter[:level, 0] + 1j *
+                      IQcenter[:level, 1]).reshape((level, 1))
 
-    total = len(Is)
-    distance = np.zeros((total,Nq))
-    for i in np.arange(Nq):
-        center_i = q['center|'+str(i)+'>'][0] + 1j*q['center|'+str(i)+'>'][1]
-        distance_i = np.abs(sigs - center_i)
-        distance[:,i]=  distance_i
-
-    tunnels = np.zeros((total,))
-    for i in np.arange(total):
-        distancei = distance[i]
-        tunneli = np.int(np.where(distancei == np.min(distancei))[0])
-        tunnels[i] = tunneli 
+    tunnels = np.argmin(np.abs(points - center_complex), axis=0)
+    # element of tunnels, x, has 0<=x<level
     return tunnels
 ```
 
@@ -68,59 +52,50 @@ def get_meas(data0, q, Nq = 2):
 
 ```python
 qNum = len(qubits)
-# The length of raw data is counts_num
-binary_count = np.zeros((counts_num),dtype = float)
+counts_num = len(data[0])
+binary_count = np.zeros((counts_num), dtype=int)
 
 for i in np.arange(qNum):
-    ## define qNum - 1-i for the writing order : q1,q2,q3...
-    binary_count += get_meas(data[0][i],qubits[qNum - 1-i]) * (level**i)
-        
-res_store = np.zeros((level**qNum))
-for i in np.arange(level**qNum):
-    res_store[i] = np.sum(binary_count == i) 
+    binary_count += get_meas(
+        data[i], qubits[i], level) * (level**(qNum-1-i))
 
-prob = res_store/counts_num
+prob = np.bincount(binary_count, minlength=level**qNum)/counts_num
 ```
 
 以下为实际代码示例
 
 ```python
-def tunnelingNlevelQ_peach(qubits, data,level = 3,qNum = 1):
-    ## generated to N qubit and multi level 20190618 -- ZiyuTao
-    qNum = len(qubits) # redundancy for our data structure
-    counts_num = len(np.asarray(data[0][0][0]))
-    binary_count = np.zeros((counts_num),dtype = float)
+import numpy as np
 
-    def get_meas(data0,q,Nq = level):
-        #data[0][x]   qubits[x]   x == 0,1,2,3
-        # if measure 1 then return 1
-        Is = np.asarray(data0[0])
-        Qs = np.asarray(data0[1])    
-        sigs = Is + 1j*Qs
-        
-        total = len(Is)
-        distance = np.zeros((total,Nq))
-        for i in np.arange(Nq):
-            center_i = q['center|'+str(i)+'>'][0] + 1j*q['center|'+str(i)+'>'][1]
-            distance_i = np.abs(sigs - center_i)
-            distance[:,i]=  distance_i
-        
-        tunnels = np.zeros((total,))
-        for i in np.arange(total):
-            distancei = distance[i]
-            tunneli = np.int(np.where(distancei == np.min(distancei))[0])
-            tunnels[i] = tunneli 
+def tunneling(qubits, data, level=2):
+    """ get probability for 1,2,3...N qubits with level (2,3,4,....)
+    Args:
+        qubits (dict): qubit information in registry
+        data (list): list of IQ data (array of complex number) for N qubits
+        level (int): level of qubit
+    """
+    qNum = len(qubits)
+    counts_num = len(data[0])
+    binary_count = np.zeros((counts_num), dtype=int)
+
+    def get_meas(data0, q, level):
+        """return the state assignments of measurement
+        for example, level=2, return=0,1,1,0,...
+        """
+        points = np.asarray(data0)
+        IQcenter = np.asarray(q['IQcenter'])
+        center_complex = (IQcenter[:level, 0] + 1j *
+                          IQcenter[:level, 1]).reshape((level, 1))
+
+        tunnels = np.argmin(np.abs(points - center_complex), axis=0)
+        # element of tunnels, x, has 0<=x<level
         return tunnels
 
     for i in np.arange(qNum):
-        binary_count += get_meas(data[0][i],qubits[i]) * (level**i)
-        
+        binary_count += get_meas(
+            data[i], qubits[i], level) * (level**(qNum-1-i))
 
-    res_store = np.zeros((level**qNum))
-    for i in np.arange(level**qNum):
-        res_store[i] = np.sum(binary_count == i) 
-        
-    prob = res_store/counts_num
+    prob = np.bincount(binary_count, minlength=level**qNum)/counts_num
     return prob
 ```
 
