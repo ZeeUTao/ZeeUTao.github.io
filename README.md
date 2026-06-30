@@ -6,6 +6,14 @@ Use [jekyll-theme-chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) as a
 
 ## Requirement
 
+### yq
+
+pip install python yq
+
+```bash
+pip install yq
+```
+
 ### jq
 
 install [chocolatey](https://chocolatey.org/install) and run
