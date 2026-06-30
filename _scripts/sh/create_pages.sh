@@ -1,16 +1,6 @@
 #!/usr/bin/env bash
-#
-# Create HTML pages for Categories and Tags in posts.
-#
-# Usage:
-#     Call from the '_posts' sibling directory.
-#
-# v2.2
-# https://github.com/cotes2020/jekyll-theme-chirpy
-# © 2020 Cotes Chung
-# Published under MIT License
 
-set -eu
+set -euo pipefail
 
 TYPE_CATEGORY=0
 TYPE_TAG=1
@@ -18,142 +8,161 @@ TYPE_TAG=1
 category_count=0
 tag_count=0
 
+echo "[INFO] Start generating category/tag pages..."
+
+# ------------------------------------------------
+# Safely read YAML front matter
+# ------------------------------------------------
 _read_yaml() {
-  local _endline="$(grep -n "\-\-\-" "$1" | cut -d: -f 1 | sed -n '2p')"
-  head -"$_endline" "$1"
+  if [[ ! -f "$1" ]]; then
+    echo "[WARN] File not found: $1"
+    return
+  fi
+  cat "$1"
 }
 
+# ------------------------------------------------
+# Read categories
+# ------------------------------------------------
 read_categories() {
-  local _yaml="$(_read_yaml "$1")"
-  local _categories="$(echo "$_yaml" | yq r - "categories.*")"
-  local _category="$(echo "$_yaml" | yq r - "category")"
-
-  if [[ -n $_categories ]]; then
-    echo "$_categories"
-  elif [[ -n $_category ]]; then
-    echo "$_category"
+  local result
+  result="$(yq e '.categories[]?' "$1" 2>/dev/null || true)"
+  if [[ -n "$result" ]]; then
+    echo "$result"
+    return
   fi
+
+  yq e '.category' "$1" 2>/dev/null || true
 }
 
+# ------------------------------------------------
+# Read tags
+# ------------------------------------------------
 read_tags() {
-  local _yaml="$(_read_yaml "$1")"
-  local _tags="$(echo "$_yaml" | yq r - "tags.*")"
-  local _tag="$(echo "$_yaml" | yq r - "tag")"
-
-  if [[ -n $_tags ]]; then
-    echo "$_tags"
-  elif [[ -n $_tag ]]; then
-    echo "$_tag"
+  local result
+  result="$(yq e '.tags[]?' "$1" 2>/dev/null || true)"
+  if [[ -n "$result" ]]; then
+    echo "$result"
+    return
   fi
+
+  yq e '.tag' "$1" 2>/dev/null || true
 }
 
+# ------------------------------------------------
+# Init
+# ------------------------------------------------
 init() {
-
-  if [[ -d categories ]]; then
-    rm -rf categories
-  fi
-
-  if [[ -d tags ]]; then
-    rm -rf tags
-  fi
+  echo "[INFO] Cleaning old categories/ and tags/"
+  rm -rf categories tags
 
   if [[ ! -d _posts ]]; then
-    exit 0
+    echo "[ERROR] '_posts' directory not found"
+    exit 1
   fi
 
-  mkdir categories tags
+  mkdir -p categories tags
 }
 
+# ------------------------------------------------
+# Create category page
+# ------------------------------------------------
 create_category() {
-  if [[ -n $1 ]]; then
-    local _name=$1
-    local _filepath="categories/$(echo "$_name" | sed 's/ /-/g' | awk '{print tolower($0)}').html"
+  [[ -z "$1" ]] && return
 
-    if [[ ! -f $_filepath ]]; then
-      echo "---" > "$_filepath"
-      echo "layout: category" >> "$_filepath"
-      echo "title: $_name" >> "$_filepath"
-      echo "category: $_name" >> "$_filepath"
-      echo "---" >> "$_filepath"
+  local name="$1"
+  local slug
+  slug="$(echo "$name" | tr '[:upper:]' '[:lower:]' | sed 's/[[:space:]]/-/g')"
+  local file="categories/${slug}.html"
 
-      ((category_count = category_count + 1))
-    fi
+  if [[ ! -f "$file" ]]; then
+    echo "[INFO] Creating category: $name"
+    cat > "$file" <<EOF
+---
+layout: category
+title: $name
+category: $name
+---
+EOF
+    ((category_count++))
   fi
 }
 
+# ------------------------------------------------
+# Create tag page
+# ------------------------------------------------
 create_tag() {
-  if [[ -n $1 ]]; then
-    local _name=$1
-    local _filepath="tags/$(echo "$_name" | sed "s/ /-/g;s/'//g" | awk '{print tolower($0)}').html"
+  [[ -z "$1" ]] && return
 
-    if [[ ! -f $_filepath ]]; then
+  local name="$1"
+  local slug
+  slug="$(echo "$name" | tr '[:upper:]' '[:lower:]' | sed "s/[[:space:]]/-/g;s/'//g")"
+  local file="tags/${slug}.html"
 
-      echo "---" > "$_filepath"
-      echo "layout: tag" >> "$_filepath"
-      echo "title: $_name" >> "$_filepath"
-      echo "tag: $_name" >> "$_filepath"
-      echo "---" >> "$_filepath"
-
-      ((tag_count = tag_count + 1))
-    fi
+  if [[ ! -f "$file" ]]; then
+    echo "[INFO] Creating tag: $name"
+    cat > "$file" <<EOF
+---
+layout: tag
+title: $name
+tag: $name
+---
+EOF
+    ((tag_count++))
   fi
 }
 
-#########################################
-# Create HTML pages for Categories/Tags.
-# Arguments:
-#   $1 - an array string
-#   $2 - type specified option
-#########################################
+# ------------------------------------------------
+# Create pages
+# ------------------------------------------------
 create_pages() {
-  if [[ -n $1 ]]; then
-    # split string to array
-    IFS_BAK=$IFS
-    IFS=$'\n'
-    local _string=$1
+  [[ -z "$1" ]] && return
 
-    case $2 in
+  local IFS=$'\n'
 
-      $TYPE_CATEGORY)
-        for i in $_string; do
-          create_category "$i"
-        done
-        ;;
-
-      $TYPE_TAG)
-        for i in $_string; do
-          create_tag "$i"
-        done
-        ;;
-
-      *) ;;
-
-    esac
-
-    IFS=$IFS_BAK
-  fi
-
+  case "$2" in
+    "$TYPE_CATEGORY")
+      for i in $1; do
+        create_category "$i"
+      done
+      ;;
+    "$TYPE_TAG")
+      for i in $1; do
+        create_tag "$i"
+      done
+      ;;
+  esac
 }
 
+# ------------------------------------------------
+# Main
+# ------------------------------------------------
 main() {
-
   init
 
-  for _file in $(find "_posts" -type f \( -iname \*.md -o -iname \*.markdown \)); do
-    local _categories=$(read_categories "$_file")
-    local _tags=$(read_tags "$_file")
+  local _categories _tags
 
-    create_pages "$_categories" $TYPE_CATEGORY
-    create_pages "$_tags" $TYPE_TAG
+  for file in $(find _posts -type f \( -iname "*.md" -o -iname "*.markdown" \)); do
+    echo "[DEBUG] Processing $file"
+
+    _categories="$(read_categories "$file")"
+    _tags="$(read_tags "$file")"
+
+    if [[ -z "$_categories" ]]; then
+      echo "[WARN] No categories found in $file"
+    else
+      create_pages "$_categories" "$TYPE_CATEGORY"
+    fi
+
+    if [[ -z "$_tags" ]]; then
+      echo "[WARN] No tags found in $file"
+    else
+      create_pages "$_tags" "$TYPE_TAG"
+    fi
   done
 
-  if [[ $category_count -gt 0 ]]; then
-    echo "[INFO] Succeed! $category_count category-pages created."
-  fi
-
-  if [[ $tag_count -gt 0 ]]; then
-    echo "[INFO] Succeed! $tag_count tag-pages created."
-  fi
+  echo "[RESULT] Category pages created: $category_count"
+  echo "[RESULT] Tag pages created: $tag_count"
 }
 
 main
