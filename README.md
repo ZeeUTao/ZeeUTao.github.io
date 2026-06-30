@@ -26,7 +26,7 @@ choco install jq
 
 ## Run
 
-### create categories
+### create categories and tags
 
 In git bash, run
 

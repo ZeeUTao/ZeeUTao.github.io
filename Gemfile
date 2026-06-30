@@ -11,7 +11,7 @@ group :jekyll_plugins do
 end
 
 group :test do
-  gem "html-proofer", "~> 3.16.0"
+  gem "html-proofer", "~> 3.19"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -22,4 +22,8 @@ install_if -> { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
 end
 
 # Performance-booster for watching directories on Windows
-gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
+# Windows file watcher (only for local `jekyll serve --livereload`)
+gem "wdm", "~> 0.1", platforms: [:mingw, :windows, :mswin]
+
+# nokogumbo is obsolete — nokogiri >= 1.12 includes gumbo parser
+# gem "nokogumbo"   # ← 务必注释掉或删除
